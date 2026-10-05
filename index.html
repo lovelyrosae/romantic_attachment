@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>성인 애착유형 진단 체크리스트</title>
+  <meta name="description" content="42문항으로 측정하는 나의 성인 애착유형(불안형, 안정형, 회피형) 진단 및 분석">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="header-badge">심리 진단 체크리스트</div>
+      <h1>나의 애착유형 파악하기</h1>
+      <p class="subtitle">42개 문항으로 나의 관계 스타일(불안형 · 안정형 · 회피형)을 정확하게 진단해보세요.</p>
+      
+      <div class="meta-tags">
+        <span class="tag">📋 총 42문항</span>
+        <span class="tag">⏱️ 약 5분 소요</span>
+        <span class="tag">📊 3가지 유형 분석</span>
+      </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="main-content">
+
+      <!-- Test Controls & Progress Bar -->
+      <section class="progress-section" id="progressSection">
+        <div class="progress-info">
+          <span class="progress-text">진행률 <strong id="answeredCount">0</strong> / 42문항</span>
+          <span class="progress-percent" id="progressPercent">0%</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" id="progressBarFill" style="width: 0%;"></div>
+        </div>
+
+        <div class="view-mode-bar">
+          <div class="mode-toggle">
+            <button type="button" class="mode-btn active" id="btnModePage" data-mode="page">📄 5문항씩 보기</button>
+            <button type="button" class="mode-btn" id="btnModeAll" data-mode="all">📜 전체 한눈에 보기</button>
+          </div>
+          <div class="quick-actions">
+            <button type="button" class="btn-text" id="btnResetAnswers">🔄 초기화</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Questions Form Container -->
+      <form id="checklistForm" class="questions-form">
+        <div id="questionsList" class="questions-list">
+          <!-- JS에서 질문 카드가 동적으로 생성됩니다. -->
+        </div>
+
+        <!-- Pagination / Navigation Controls -->
+        <div class="nav-controls" id="navControls">
+          <button type="button" class="btn btn-secondary" id="btnPrev">이전 문항</button>
+          <span class="page-indicator" id="pageIndicator">1 / 9 페이지</span>
+          <button type="button" class="btn btn-primary" id="btnNext">다음 문항</button>
+        </div>
+
+        <div class="submit-container">
+          <button type="submit" class="btn btn-submit btn-large" id="btnSubmit" disabled>
+            ✨ 애착유형 결과 확인하기
+          </button>
+          <p class="submit-hint" id="submitHint">모든 질문(42문항)에 답변하시면 결과 버튼이 활성화됩니다.</p>
+        </div>
+      </form>
+
+      <!-- Result Report Section (Initially Hidden) -->
+      <section class="result-section hidden" id="resultSection">
+        <div class="result-card">
+          <div class="result-header">
+            <span class="result-subtitle">진단 결과 리포트</span>
+            <h2 class="result-title" id="dominantTypeTitle">당신의 주 애착유형은 <span id="dominantTypeName" class="highlight">-</span> 입니다</h2>
+            <p class="result-summary" id="dominantTypeSummary"></p>
+          </div>
+
+          <!-- Sheet 2 Criteria Score Cards -->
+          <div class="score-cards-grid">
+            <!-- A: 불안형 -->
+            <div class="score-card card-anxious" id="cardAnxious">
+              <div class="card-type-header">
+                <span class="type-code">Type A</span>
+                <h3>불안형 (Anxious)</h3>
+              </div>
+              <div class="score-main">
+                <div class="score-val"><span id="scoreA">0</span> <small>/ 14점</small></div>
+                <div class="level-badge" id="badgeA">낮음</div>
+              </div>
+              <div class="gauge-container">
+                <div class="gauge-fill" id="gaugeA" style="width: 0%;"></div>
+              </div>
+              <div class="level-range-info">
+                <span>0~4 낮음</span>
+                <span>5~9 보통</span>
+                <span>10~14 높음</span>
+              </div>
+              <p class="type-desc" id="descA">파트너의 사랑을 끊임없이 확인받고 싶어하며, 거절이나 이별에 대한 두려움이 큽니다.</p>
+            </div>
+
+            <!-- B: 안정형 -->
+            <div class="score-card card-secure" id="cardSecure">
+              <div class="card-type-header">
+                <span class="type-code">Type B</span>
+                <h3>안정형 (Secure)</h3>
+              </div>
+              <div class="score-main">
+                <div class="score-val"><span id="scoreB">0</span> <small>/ 14점</small></div>
+                <div class="level-badge" id="badgeB">낮음</div>
+              </div>
+              <div class="gauge-container">
+                <div class="gauge-fill" id="gaugeB" style="width: 0%;"></div>
+              </div>
+              <div class="level-range-info">
+                <span>0~4 낮음</span>
+                <span>5~9 보통</span>
+                <span>10~14 높음</span>
+              </div>
+              <p class="type-desc" id="descB">친밀감과 독립성의 균형을 잘 이루며, 솔직하고 정직하게 감정을 공유합니다.</p>
+            </div>
+
+            <!-- C: 회피형 -->
+            <div class="score-card card-avoidant" id="cardAvoidant">
+              <div class="card-type-header">
+                <span class="type-code">Type C</span>
+                <h3>회피형 (Avoidant)</h3>
+              </div>
+              <div class="score-main">
+                <div class="score-val"><span id="scoreC">0</span> <small>/ 14점</small></div>
+                <div class="level-badge" id="badgeC">낮음</div>
+              </div>
+              <div class="gauge-container">
+                <div class="gauge-fill" id="gaugeC" style="width: 0%;"></div>
+              </div>
+              <div class="level-range-info">
+                <span>0~4 낮음</span>
+                <span>5~9 보통</span>
+                <span>10~14 높음</span>
+              </div>
+              <p class="type-desc" id="descC">자율성과 독립성을 매우 중요시하며, 지나친 친밀감이나 의존에 부담을 느낍니다.</p>
+            </div>
+          </div>
+
+          <!-- Sheet 2 Grade Comparison Table -->
+          <div class="result-detail-box">
+            <h3>📊 Sheet 2 기준 점수판 및 성향 수준</h3>
+            <div class="table-responsive">
+              <table class="result-table">
+                <thead>
+                  <tr>
+                    <th>유형 기호</th>
+                    <th>유형명</th>
+                    <th>낮음 (0~4점)</th>
+                    <th>보통 (5~9점)</th>
+                    <th>높음 (10~14점)</th>
+                    <th>내 점수</th>
+                    <th>최종 수준</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr id="tableRowA">
+                    <td><span class="badge-code code-a">A</span></td>
+                    <td>불안형</td>
+                    <td>0 ~ 4점</td>
+                    <td>5 ~ 9점</td>
+                    <td>10 ~ 14점</td>
+                    <td><strong id="tableScoreA">0점</strong></td>
+                    <td><span class="level-pill" id="tableLevelA">-</span></td>
+                  </tr>
+                  <tr id="tableRowB">
+                    <td><span class="badge-code code-b">B</span></td>
+                    <td>안정형</td>
+                    <td>0 ~ 4점</td>
+                    <td>5 ~ 9점</td>
+                    <td>10 ~ 14점</td>
+                    <td><strong id="tableScoreB">0점</strong></td>
+                    <td><span class="level-pill" id="tableLevelB">-</span></td>
+                  </tr>
+                  <tr id="tableRowC">
+                    <td><span class="badge-code code-c">C</span></td>
+                    <td>회피형</td>
+                    <td>0 ~ 4점</td>
+                    <td>5 ~ 9점</td>
+                    <td>10 ~ 14점</td>
+                    <td><strong id="tableScoreC">0점</strong></td>
+                    <td><span class="level-pill" id="tableLevelC">-</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Detailed Diagnostic Report & Advice -->
+          <div class="analysis-box">
+            <h3>💡 상세 성향 분석 및 관계 조언</h3>
+            <div class="analysis-content" id="analysisContent">
+              <!-- JS에서 성향별 상세 가이드가 dynamic 렌더링 됩니다 -->
+            </div>
+          </div>
+
+          <!-- Result Actions -->
+          <div class="result-actions">
+            <button type="button" class="btn btn-secondary" id="btnReviewAnswers">🔍 내 답변 확인하기</button>
+            <button type="button" class="btn btn-outline" id="btnPrint">🖨️ 결과 출력 / PDF 저장</button>
+            <button type="button" class="btn btn-primary" id="btnRetake">🔄 다시 테스트하기</button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <p>성인 애착유형 진단 체크리스트 (Adult Attachment Style Test)</p>
+      <p class="copyright">Sheet 1 문항 및 Sheet 2 산출 기준 완벽 적용 ⓒ 2026</p>
+    </footer>
+  </div>
+
+  <!-- Custom Alert Modal -->
+  <div id="customAlertModal" class="modal-overlay hidden">
+    <div class="modal-box">
+      <p class="modal-message" id="modalMessage">해당 페이지의 측정을 완료해주세요</p>
+      <button type="button" class="btn-primary modal-confirm-btn" id="btnModalConfirm">확인</button>
+    </div>
+  </div>
+
+  <script src="questions.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
